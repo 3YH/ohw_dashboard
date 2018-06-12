@@ -1,4 +1,4 @@
-package com.example.easynotes;
+package com.test.ohwdash;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
