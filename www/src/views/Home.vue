@@ -2,6 +2,7 @@
   <div class="home">
     <img src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <vs-button vs-type="primary-filled">Primary</vs-button>
       <el-table
     :data="tableData"
     style="width: 100%">

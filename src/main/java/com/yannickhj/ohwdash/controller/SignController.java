@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:8081")
+
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping("/api")
 public class SignController {
 
