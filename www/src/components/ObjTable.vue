@@ -1,6 +1,6 @@
 <template>
   <div class="table">
-    <el-table :data="tableData" row-class-name="styled-row" stripe style="width: 70%; margin:20px;">
+    <el-table :data="tableData" row-class-name="styled-row" class="objtable" style="background-color:transparent">
       <el-table-column label="#" type="index" width="40px">
       </el-table-column>
       <el-table-column label="Locatie" type="expand" width="180px">
@@ -22,7 +22,7 @@
       </el-table-column>
       <el-table-column prop="route" label="Route">
       </el-table-column>
-      <el-table-column prop="onderhoud" label="Onderhoud?" :filters="[{ text: 'Ja', value: 'Ja' }, { text: 'Nee', value: 'Nee' }]"
+      <el-table-column :formatter="cellValueRenderer" prop="onderhoud" label="Onderhoud?" :filters="[{ text: 'Ja', value: 'Ja' }, { text: 'Nee', value: 'Nee' }]"
       :filter-method="filterTag">
       </el-table-column>
       <el-table-column prop="controleur" label="Controleur">
@@ -31,26 +31,28 @@
       </el-table-column>
       <el-table-column fixed="right" label="Operations">
 <template scope="scope">
-  <el-button @click="editObject(scope.$index, tableData)" type="text" size="large">
-    Edit</el-button>
+  <vs-button @click="editObject(scope.$index, tableData)" vs-icon="edit"></vs-button>
 </template>
     </el-table-column>
   </el-table>
-   <el-dialog title="Edit" :visible.sync="dialogVisible">
+   <el-dialog title="Object wijzigen" :visible.sync="dialogVisible" custom-class="popup">
       <el-form :model="form">
-         <vs-tabs >
-      <vs-tab vs-label="Home">
+         <vs-tabs>
+      <vs-tab vs-label="Onderhoud">
         <div class="con-tab-ejemplo">
-            <el-form-item label="username" :label-width="formLabelWidth">
-                <el-input v-model="form.locatienummer" auto-complete="off"></el-input>
-            </el-form-item>
+           <vs-input vs-label="Locatienummer" vs-placeholder="Placeholder" v-model="form.locatienummer"/>
+          <label>Onderhoud nodig?
+           <vs-switch vs-type="warning" vs-icon="build" v-model="form.onderhoud"/></label>
         </div>
       </vs-tab>
-      <vs-tab vs-label="Service">
+      <vs-tab vs-label="Locatie">
         <div class="con-tab-ejemplo">
-        <el-form-item label="email" :label-width="formLabelWidth">
-                <el-input v-model="form.plaats" auto-complete="off"></el-input>
-            </el-form-item>
+        <vs-input vs-label="Label" vs-placeholder="Placeholder" v-model="form.plaats"/>
+        </div>
+      </vs-tab>
+      <vs-tab vs-label="Inhoud">
+        <div class="con-tab-ejemplo">
+        <vs-input vs-label="Label" vs-placeholder="Placeholder" v-model="form.plaats"/>
         </div>
       </vs-tab>
     </vs-tabs>
@@ -67,11 +69,18 @@
   .el-table th.is-leaf {
     border-bottom: none!important;
   }
+  .objtable{
+    width:75%!important;
+    margin:20px;
+    .el-table__expanded-cell{
+       background-color:transparent;
+    }
   .el-table__body {
     border-spacing: 0 1rem;
     border-collapse: separate;
     .styled-row {
       border: 0px solid #fff;
+      
       td:first-child {
         border: 0px;
         border-top-left-radius: 5px;
@@ -84,6 +93,43 @@
       }
       .cell {
         text-align: left;
+        button.vs-btn.vs-button-primary-filled.filled.vs-button-icon{
+          background-color: #fff;
+          &:hover{
+            box-shadow:none;
+            span.text{
+               color:#409EFF;
+                opacity:1;
+            }
+          }
+          span.text{
+            color:#000;
+          opacity:0.58;
+          }
+        }
+      }
+    }
+    .hover-row{
+      td{
+        background-color:#fff!important;
+        
+      }
+      }
+  }
+  }
+  .el-dialog.popup{
+    border-radius: 5px;
+    text-align: left;
+    .ul-tabs{
+      li{
+        list-style: none;
+      }
+    }
+    .con-tab{
+      .con-tab-ejemplo{
+        label{
+          justify-content: left;
+        }
       }
     }
   }
@@ -100,15 +146,14 @@
         tableData: [],
         dialogVisible: false,
         form: {},
-        formLabelWidth: '120px',
       }
     },
     mounted() {
       this.getObjecten()
     },
     methods: {
-      handleClick() {
-        console.log('click');
+      cellValueRenderer(row, column, cellValue) {
+      return  cellValue ? 'Ja' : 'Nee';
       },
       filterTag(value, row) {
         return row.tag === value;
@@ -140,10 +185,11 @@
         let objId = formName.id;
         let locatienummer = formName.locatienummer;
         let plaats = formName.plaats;
-        let zone = formName.zone;
+        let onderhoud = formName.onderhoud;
         this.$axios.put('http://localhost:8090/api/objecten/' + objId, {
             locatienummer: locatienummer,
             plaats: plaats,
+            onderhoud:onderhoud,
           })
           .then(function(response) {
             console.log(response);
@@ -152,7 +198,7 @@
           .catch(function(error) {
             console.log(error);
           });
-        location.reload();
+          location.reload();
       },
     }
   }

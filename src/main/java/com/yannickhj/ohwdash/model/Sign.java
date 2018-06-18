@@ -31,7 +31,7 @@ public class Sign {
     private String route;
     private int xcord;
     private int ycord;
-    private Boolean onderhoud;
+    private Boolean onderhoud=false;
     private String controleur;
     private String acties;
     
