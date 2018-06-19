@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <el-container>
-     
-        <Sidebar></Sidebar>
-   
+      <Sidebar></Sidebar>
       <el-main>
         <router-view/>
       </el-main>
@@ -12,6 +10,7 @@
 </template>
 
 <style lang="scss">
+  @import '../node_modules/sass-mq/_mq.scss';
   body {
     font-family: 'Roboto', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -19,8 +18,11 @@
     text-align: center;
     color: #2c3e50;
     background-color: #F5F7FA;
-    .el-main{
-      padding:40px;
+    .el-main {
+      padding: 40px;
+      @include mq($until: tablet) {
+       padding:10px;
+      }
     }
   }
 </style>
@@ -32,9 +34,7 @@
       Sidebar
     },
     data() {
-      return {
-        
-      }
+      return {}
     }
   }
 </script>

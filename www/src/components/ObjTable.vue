@@ -105,6 +105,7 @@
 </div>
 </template>
 <style lang="scss">
+@import '../../node_modules/sass-mq/_mq.scss';
   .el-table td,
   .el-table th.is-leaf {
     border-bottom: none!important;
@@ -112,6 +113,7 @@
   .objtable {
     .head {
       background-color: transparent;
+      
       th {
         background-color: transparent;
         padding:0;

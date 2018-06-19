@@ -25,7 +25,6 @@ Vue.use(ElementUI);
 // Vue.component(FormItem.name, FormItem);
 // Vue.component(Input.name, Input);
 
-
 Object.defineProperty(Vue.prototype, '$axios', { value: axios });
 Vue.config.productionTip = false
 
