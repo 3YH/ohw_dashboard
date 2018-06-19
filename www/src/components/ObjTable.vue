@@ -1,39 +1,39 @@
 <template>
   <div class="table">
-    <el-table :data="tableData" row-class-name="styled-row" class="objtable" style="background-color:transparent">
+    <el-table :data="tableData" row-class-name="styled-row" class="objtable" style="background-color:transparent; width:100%;" header-row-class-name="head" fit>
       <el-table-column label="#" type="index" width="40px">
       </el-table-column>
-      <el-table-column label="Locatie" type="expand" width="180px">
+      <el-table-column label="Inhoud" type="expand" width="180px">
         <template slot-scope="props">
-             <p>Plaats: {{ props.row.plaats }}</p>
-             <p>Gemeente: {{ props.row.gemeente }}</p>
-             <p>Straatnaam: {{ props.row.straatnaam }}</p>
-             <p>X-Coördinaat: {{ props.row.xcord }}</p>
-             <p>Y-Coördinaat: {{ props.row.ycord }}</p>
+                 <p>Soort: {{ props.row.soort }}</p>
+                 <p>Grootte: {{ props.row.grootte }}</p>
+                 <p>Biestekst: {{ props.row.biestekst }}</p>
+                 <p>X-Coördinaat: {{ props.row.xcord }}</p>
+                 <p>Y-Coördinaat: {{ props.row.ycord }}</p>
 </template>
       </el-table-column>
       <el-table-column prop="locatienummer" label="Nummer" aling="left">
       </el-table-column>
-      <el-table-column prop="soort" label="Soort">
+      <el-table-column prop="plaats" label="Plaats">
       </el-table-column>
-      <el-table-column prop="grootte" label="Grootte">
+       <el-table-column prop="straatnaam" label="Straatnaam">
       </el-table-column>
-      <el-table-column prop="biestekst" label="Biestekst">
+      <el-table-column prop="gemeente" label="Gemeente">
       </el-table-column>
       <el-table-column prop="route" label="Route">
       </el-table-column>
       <el-table-column :formatter="cellValueRenderer" prop="onderhoud" label="Onderhoud?" :filters="[{ text: 'Ja', value: 'Ja' }, { text: 'Nee', value: 'Nee' }]"
       :filter-method="filterTag">
       </el-table-column>
-      <el-table-column prop="controleur" label="Controleur">
-      </el-table-column>
       <el-table-column prop="acties" label="Acties">
       </el-table-column>
-      <el-table-column fixed="right" label="Operations">
+      <el-table-column prop="controleur" label="Controleur">
+      </el-table-column>
+      <el-table-column label="Wijzigingen">
 <template scope="scope">
-  <vs-button @click="editObject(scope.$index, tableData)" vs-icon="edit"></vs-button>
-  <vs-button @click="getDelObject(scope.$index, tableData)" vs-icon="delete"></vs-button>
-  
+  <vs-button @click="editObject(scope.$index, tableData)" vs-icon="edit">
+  </vs-button>
+  <vs-button @click="getDelObject(scope.$index, tableData)" vs-icon="delete_forever"></vs-button>
 </template>
     </el-table-column>
   </el-table>
@@ -98,12 +98,10 @@
   width="30%">
   <span>{{deleteobj.locatienummer}}</span>
   <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">Cancel</el-button>
+    <el-button @click="deleteDialogVisible = false">Cancel</el-button>
     <el-button type="primary" @click="delObj(deleteobj)">Confirm</el-button>
   </span>
 </el-dialog>
-
-
 </div>
 </template>
 <style lang="scss">
@@ -112,8 +110,14 @@
     border-bottom: none!important;
   }
   .objtable {
-    width: 75%!important;
-    margin: 20px;
+    .head {
+      background-color: transparent;
+      th {
+        background-color: transparent;
+        padding:0;
+        margin:0;
+      }
+    }
     .el-table__expanded-cell {
       background-color: transparent;
     }
@@ -122,6 +126,9 @@
       border-collapse: separate;
       .styled-row {
         border: 0px solid #fff;
+        td {
+          padding: 0px;
+        }
         td:first-child {
           border: 0px;
           border-top-left-radius: 5px;
@@ -137,22 +144,43 @@
           button.vs-btn.vs-button-primary-filled.filled.vs-button-icon {
             background-color: #fff;
             &:hover {
-              box-shadow: none;
+              box-shadow: 0 9px 28px -9px #EB5757;
               span.text {
-                color: #409EFF;
+                color: #EB5757;
                 opacity: 1;
+              }
+              &:first-child {
+                box-shadow: 0 9px 28px -9px #409EFF;
+                span.text {
+                  color: #409EFF;
+                }
               }
             }
             span.text {
               color: #000;
               opacity: 0.58;
             }
+            &:first-child {
+              margin-top: 11px;
+              margin-right: 7px;
+              margin-bottom: 11px;
+            }
+          }
+        }
+        &:hover {
+          td {
+            background-color: #edf3fc;
           }
         }
       }
-      .hover-row {
+      .current-row {
         td {
-          background-color: rgba(64, 160, 255, 0.212)!important;
+          background-color: #d9e8ff;
+        }
+        &:hover {
+          td {
+            background-color: #d9e8ff;
+          }
         }
       }
     }
@@ -257,7 +285,7 @@
           });
         location.reload();
       },
-       getDelObject: function(index, rows) {
+      getDelObject: function(index, rows) {
         this.deleteDialogVisible = true;
         const objId = rows[index].id;
         const idurl = 'http://localhost:8090/api/objecten/' + objId;
