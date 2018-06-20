@@ -21,7 +21,7 @@
     .el-main {
       padding: 40px;
       @include mq($until: tablet) {
-       padding:10px;
+        padding:10px;
       }
     }
   }
@@ -32,9 +32,6 @@
   export default {
     components: {
       Sidebar
-    },
-    data() {
-      return {}
     }
   }
 </script>

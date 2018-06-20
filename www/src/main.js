@@ -7,6 +7,7 @@ import Vuesax from 'vuesax'
 import axios from 'axios'
 import lang from 'element-ui/lib/locale/lang/nl'
 import locale from 'element-ui/lib/locale'
+import moment from 'moment'
 
 //Styles
 import 'element-ui/lib/theme-chalk/index.css';
@@ -25,6 +26,7 @@ Vue.use(ElementUI);
 // Vue.component(FormItem.name, FormItem);
 // Vue.component(Input.name, Input);
 
+Object.defineProperty(Vue.prototype, '$moment', { value: moment });
 Object.defineProperty(Vue.prototype, '$axios', { value: axios });
 Vue.config.productionTip = false
 

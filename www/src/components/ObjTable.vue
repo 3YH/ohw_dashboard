@@ -1,33 +1,39 @@
 <template>
-  <div class="table">
-    <el-table :data="tableData" row-class-name="styled-row" class="objtable" style="background-color:transparent; width:100%;" header-row-class-name="head" fit>
+  <div class="wrapper">
+    <div class="actions">
+      <vs-input vs-icon="search" vs-placeholder="Zoeken.." class="search" v-model="filterText" @keyup.native="filterTable" />
+      <vs-button @click="addDialogVisible = true" vs-color="#fff" vs-type="border" vs-icon="add" class="addbtn">Object toevoegen</vs-button>
+    </div>
+    <el-table :data="tableData" ref="tableRef" row-class-name="styled-row" class="objtable" style="background-color:transparent; width:100%;" header-row-class-name="head" max-height="800">
       <el-table-column label="#" type="index" width="40px">
       </el-table-column>
       <el-table-column label="Inhoud" type="expand" width="180px">
         <template slot-scope="props">
-                 <p>Soort: {{ props.row.soort }}</p>
-                 <p>Grootte: {{ props.row.grootte }}</p>
-                 <p>Biestekst: {{ props.row.biestekst }}</p>
-                 <p>X-Coördinaat: {{ props.row.xcord }}</p>
-                 <p>Y-Coördinaat: {{ props.row.ycord }}</p>
+                                 <p>Soort: {{ props.row.soort }}</p>
+                                 <p>Grootte: {{ props.row.grootte }}</p>
+                                 <p>Biestekst: {{ props.row.biestekst }}</p>
+                                 <p>Coördinaten:</p>
+                                 <p>X-coördinaat: {{ props.row.xcord }}</p>
+                                 <p>Y-coördinaat: {{ props.row.ycord }}</p>
 </template>
       </el-table-column>
-      <el-table-column prop="locatienummer" label="Nummer" aling="left">
+      <el-table-column sortable prop="locatienummer" label="Nummer" aling="left">
       </el-table-column>
-      <el-table-column prop="plaats" label="Plaats">
+      <el-table-column sortable prop="plaats" label="Plaats">
       </el-table-column>
-       <el-table-column prop="straatnaam" label="Straatnaam">
+       <el-table-column sortable prop="straatnaam" label="Straatnaam">
       </el-table-column>
-      <el-table-column prop="gemeente" label="Gemeente">
+      <el-table-column sortable prop="gemeente" label="Gemeente">
       </el-table-column>
-      <el-table-column prop="route" label="Route">
+      <el-table-column sortable prop="route" label="Route">
       </el-table-column>
-      <el-table-column :formatter="cellValueRenderer" prop="onderhoud" label="Onderhoud?" :filters="[{ text: 'Ja', value: 'Ja' }, { text: 'Nee', value: 'Nee' }]"
-      :filter-method="filterTag">
+      <el-table-column sortable :formatter="cellValueRenderer" prop="onderhoud" label="Onderhoud?">
       </el-table-column>
-      <el-table-column prop="acties" label="Acties">
+      <el-table-column sortable prop="acties" label="Acties">
       </el-table-column>
-      <el-table-column prop="controleur" label="Controleur">
+      <el-table-column sortable prop="controleur" label="Controleur">
+      </el-table-column>
+      <el-table-column sortable prop="updatedAt" label="Laatste wijziging" :formatter="dateFormatter">
       </el-table-column>
       <el-table-column label="Wijzigingen">
 <template scope="scope">
@@ -37,7 +43,6 @@
 </template>
     </el-table-column>
   </el-table>
-  <vs-button @click="addDialogVisible = true" vs-color="primary" vs-type="filled">Primary</vs-button>
    <el-dialog title="Object wijzigen" :visible.sync="editDialogVisible" custom-class="popup">
       <el-form :model="editform">
          <vs-tabs>
@@ -105,7 +110,45 @@
 </div>
 </template>
 <style lang="scss">
-@import '../../node_modules/sass-mq/_mq.scss';
+  @import '../../node_modules/sass-mq/_mq.scss';
+  .actions {
+    display: flex;
+    align-items: stretch;
+    margin-bottom: 40px;
+    .search {
+      flex: 1 0 0;
+      margin: 0 20px 0 0!important;
+      font-size: 16px;
+      input {
+        border: none!important;
+        height: 44px;
+        font-size: 16px;
+      }
+      .iconx {
+        border: none!important;
+        i {
+          font-size: 20px;
+          padding-left: 10px;
+        }
+      }
+      .placeholder {
+        padding-bottom: 2px;
+        font-size: 16px;
+        padding-left: 8px;
+      }
+    }
+    .addbtn {
+      right: 0;
+      font-size: 16px;
+      span.text {
+        color: #858585;
+        .icon-btn {
+          opacity: 1;
+          color: #409EFF;
+        }
+      }
+    }
+  }
   .el-table td,
   .el-table th.is-leaf {
     border-bottom: none!important;
@@ -113,11 +156,10 @@
   .objtable {
     .head {
       background-color: transparent;
-      
       th {
         background-color: transparent;
-        padding:0;
-        margin:0;
+        padding: 0;
+        margin: 0;
       }
     }
     .el-table__expanded-cell {
@@ -154,18 +196,22 @@
               &:first-child {
                 box-shadow: 0 9px 28px -9px #409EFF;
                 span.text {
+                  opacity: 1;
                   color: #409EFF;
                 }
               }
             }
             span.text {
-              color: #000;
-              opacity: 0.58;
+              color: #EB5757;
             }
             &:first-child {
               margin-top: 11px;
               margin-right: 7px;
               margin-bottom: 11px;
+              span.text {
+                color: #000;
+                opacity: 0.58;
+              }
             }
           }
         }
@@ -220,6 +266,7 @@
         addform: {},
         editform: {},
         deleteobj: {},
+        filterText: null,
       }
     },
     mounted() {
@@ -229,12 +276,9 @@
       cellValueRenderer(row, column, cellValue) {
         return cellValue ? 'Ja' : 'Nee';
       },
-      filterTag(value, row) {
-        return row.tag === value;
-      },
-      filterHandler(value, row, column) {
-        const property = column['property'];
-        return row[property] === value;
+      dateFormatter(row, column) {
+        let data = this.$moment(row.updatedAt, this.$moment.ISO_8601);
+        return data.format('DD-MM-YYYY, h:mm')
       },
       getObjecten: function() {
         this.$axios.get(this.apiUrl, {}).then((response) => {
@@ -259,7 +303,12 @@
           .catch(function(error) {
             console.log(error);
           });
-        location.reload();
+        this.$vs.notify({
+          text: 'Object opgeslagen',
+          color: 'success',
+          icon: 'done'
+        })
+        setTimeout(window.location.reload.bind(window.location), 300);
       },
       editObject: function(index, rows) {
         this.editDialogVisible = true;
@@ -273,7 +322,7 @@
       },
       updateForm: function(editObjForm) {
         let objId = editObjForm.id;
-        let locatienummerr = editObjForm.locatienummer;
+        let locatienummer = editObjForm.locatienummer;
         let plaats = editObjForm.plaats;
         let onderhoud = editObjForm.onderhoud;
         this.$axios.put('http://localhost:8090/api/objecten/' + objId, {
@@ -285,7 +334,12 @@
           .catch(function(error) {
             console.log(error);
           });
-        location.reload();
+        this.$vs.notify({
+          text: 'Object opgeslagen',
+          color: 'success',
+          icon: 'done'
+        })
+        setTimeout(window.location.reload.bind(window.location), 300);
       },
       getDelObject: function(index, rows) {
         this.deleteDialogVisible = true;
@@ -307,6 +361,24 @@
             console.log(error);
           });
         location.reload();
+      },
+      filterTable() {
+        const rows = this.$refs.tableRef.$refs.bodyWrapper.getElementsByClassName(
+          'el-table__row'
+        )
+        for (let row of rows) {
+          let cells = row.getElementsByTagName('td')
+          for (let cell of cells) {
+            let innerText = cell.innerText.toLowerCase()
+            let filterText = this.filterText.toLowerCase()
+            if (innerText.indexOf(filterText) > -1) {
+              row.style.display = ''
+              break
+            } else {
+              row.style.display = 'none'
+            }
+          }
+        }
       }
     }
   }
