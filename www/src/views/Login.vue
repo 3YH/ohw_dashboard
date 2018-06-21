@@ -32,10 +32,6 @@
         },
         valid: {
           "email": true,
-          "number": true,
-          "url": true,
-          "password": true,
-          "custom": true
         }
       }
     },
@@ -73,7 +69,7 @@
 
 <style lang="scss">
   #login {
-    max-width: 700px;
+    max-width: 740px;
     width: 100%;
     display: block;
     padding-top: 4%;
@@ -86,11 +82,11 @@
         padding: 0px;
         background-color: #fff;
         .info-media {
-          background-image: url(https://bakery-flow.demo.vaadin.com/frontend-es6/images/login-banner.jpg);
+          background-image: url(../assets/bgimg.png);
           background-size: cover;
           background-position: center center;
           width: 100%;
-          padding: 24px;
+          padding: 38px 30px 32px 30px;
           h1 {
             font-weight: 300;
             font-size: 2.1em;
@@ -99,14 +95,14 @@
             color: #fff;
           }
           p {
-            margin-top: 8px;
+            margin-top: 10px;
             font-weight: 400;
             color: #fff;
             opacity: 0.89;
           }
         }
         .form {
-          padding: 24px;
+          padding: 30px;
           h1 {
             font-weight: 400;
             font-size: 2em;

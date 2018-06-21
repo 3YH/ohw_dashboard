@@ -4,17 +4,17 @@
       <vs-input vs-icon="search" vs-placeholder="Zoeken.." class="search" v-model="filterText" @keyup.native="filterTable" />
       <vs-button @click="addDialogVisible = true" vs-color="#fff" vs-type="border" vs-icon="add" class="addbtn">Object toevoegen</vs-button>
     </div>
-    <el-table :data="tableData" ref="tableRef" row-class-name="styled-row" class="objtable" style="background-color:transparent; width:100%;" header-row-class-name="head" max-height="800">
+    <el-table :data="tableData" ref="tableRef" row-class-name="styled-row" class="objtable" header-row-class-name="head" max-height="800">
       <el-table-column label="#" type="index" width="40px">
       </el-table-column>
       <el-table-column label="Inhoud" type="expand" width="180px">
         <template slot-scope="props">
-                                   <p>Soort: {{ props.row.soort }}</p>
-                                   <p>Grootte: {{ props.row.grootte }}</p>
-                                   <p>Biestekst: {{ props.row.biestekst }}</p>
-                                   <p>Coördinaten:</p>
-                                   <p>X-coördinaat: {{ props.row.xcord }}</p>
-                                   <p>Y-coördinaat: {{ props.row.ycord }}</p>
+                                                                                             <p>Soort: {{ props.row.soort }}</p>
+                                                                                             <p>Grootte: {{ props.row.grootte }}</p>
+                                                                                             <p>Biestekst: {{ props.row.biestekst }}</p>
+                                                                                             <p>Coördinaten:</p>
+                                                                                             <p>X-coördinaat: {{ props.row.xcord }}</p>
+                                                                                             <p>Y-coördinaat: {{ props.row.ycord }}</p>
 </template>
       </el-table-column>
       <el-table-column sortable prop="locatienummer" label="Nummer" aling="left">
@@ -47,64 +47,111 @@
       <el-form :model="editform">
          <vs-tabs>
       <vs-tab vs-label="Onderhoud">
-        <div class="con-tab-ejemplo">
-           <vs-input vs-label="Locatienummer" vs-placeholder="Placeholder" v-model="editform.locatienummer"/>
+        <div class="oh-tab">
           <label>Onderhoud nodig?
-           <vs-switch vs-type="warning" vs-icon="build" v-model="editform.onderhoud"/></label>
+           <vs-switch vs-type="warning" vs-icon="build" v-model="editform.onderhoud"/></label><br>
+            <label>Acties</label><br>
+           <el-input type="textarea" :rows="2" placeholder="e.g. corrosie/graffiti" v-model="editform.acties">
+           </el-input>
+           <br>
+          <label>Controleur</label><br>
+          <el-select v-model="editform.controleur" placeholder="Controleur:">
+    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" ></el-option>
+    </el-select>
         </div>
       </vs-tab>
       <vs-tab vs-label="Locatie">
-        <div class="con-tab-ejemplo">
-        <vs-input vs-label="Label" vs-placeholder="Placeholder" v-model="editform.plaats"/>
+        <div class="loc-tab">
+        <vs-input vs-label="Plaats" vs-placeholder="Placeholder" v-model="editform.plaats"/>
+        <vs-input vs-label="Straatnaam" vs-placeholder="Straatnaam" v-model="editform.straatnaam"/>
+        <vs-input vs-label="Gemeente" vs-placeholder="Gemeente" v-model="editform.gemeente"/>
+        <vs-input vs-label="X-coördinaat" vs-placeholder="" vs-type="number" v-model="editform.xcord"/>
+        <vs-input vs-label="Y-coördinaat" vs-placeholder="" vs-type="number" v-model="editform.ycord"/>
         </div>
       </vs-tab>
       <vs-tab vs-label="Inhoud">
-        <div class="con-tab-ejemplo">
-        <vs-input vs-label="Label" vs-placeholder="Placeholder" v-model="editform.plaats"/>
+        <div class="inh-tab">
+           <vs-input vs-label="Locatienummer" vs-placeholder="e.g. NW01" v-model="editform.locatienummer"/>
+           <label>Soort:</label>
+           <div class="soort">
+       <vs-radio v-model="editform.soort" vs-value="Bord">Bord</vs-radio>
+       <vs-radio v-model="editform.soort" vs-value="Brug">Brug</vs-radio>
+       <vs-radio v-model="editform.soort" vs-value="Stap">Stap</vs-radio>
+       </div>
+         <label>Grootte</label><br>
+        <el-select v-model="editform.grootte" placeholder="Grootte:">
+    <el-option v-for="item in grootte" :key="item.value" :label="item.label" :value="item.value" ></el-option>
+    </el-select><br>
+    <label>Biestekst</label><br>
+           <el-input type="textarea" :rows="2" placeholder="Biestekst" v-model="editform.biestekst">
+           </el-input>
         </div>
       </vs-tab>
     </vs-tabs>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button :plain="true" type="danger" @click="editDialogVisible = false">Cancel</el-button>
-            <el-button :plain="true" @click="updateForm(editform)">Save</el-button>
+          <vs-button vs-color="primary" vs-icon="save" @click="updateForm(editform)">Wijzigingen opslaan</vs-button> 
         </div>
     </el-dialog>
-    <el-dialog
-  title="Object toevoegen"
-  :visible.sync="addDialogVisible" custom-class="popup">
-  <el-form :model="addform">
+
+
+   <el-dialog title="Object toevoegen" :visible.sync="addDialogVisible" custom-class="popup">
+      <el-form :model="addform">
          <vs-tabs>
-      <vs-tab vs-label="Onderhoud">
-        <div class="con-tab-ejemplo">
-           <vs-input vs-label="Locatienummer" vs-placeholder="Placeholder" v-model="addform.locatienummer"/>
-        </div>
-      </vs-tab>
       <vs-tab vs-label="Locatie">
-        <div class="con-tab-ejemplo">
-        <vs-input vs-label="Label" vs-placeholder="Placeholder" v-model="addform.plaats"/>
+        <div class="loc-tab">
+        <vs-input vs-label="Plaats" vs-placeholder="Placeholder" v-model="editform.plaats"/>
+        <vs-input vs-label="Straatnaam" vs-placeholder="Straatnaam" v-model="editform.straatnaam"/>
+        <vs-input vs-label="Gemeente" vs-placeholder="Gemeente" v-model="editform.gemeente"/>
+        <vs-input vs-label="X-coördinaat" vs-placeholder="" vs-type="number" v-model="editform.xcord"/>
+        <vs-input vs-label="Y-coördinaat" vs-placeholder="" vs-type="number" v-model="editform.ycord"/>
         </div>
       </vs-tab>
       <vs-tab vs-label="Inhoud">
-        <div class="con-tab-ejemplo">
-      
+        <div class="inh-tab">
+           <vs-input vs-label="Locatienummer" vs-placeholder="e.g. NW01" v-model="editform.locatienummer"/>
+           <label>Soort:</label>
+           <div class="soort">
+       <vs-radio v-model="editform.soort" vs-value="Bord">Bord</vs-radio>
+       <vs-radio v-model="editform.soort" vs-value="Brug">Brug</vs-radio>
+       <vs-radio v-model="editform.soort" vs-value="Stap">Stap</vs-radio>
+       </div>
+         <label>Grootte</label><br>
+        <el-select v-model="editform.grootte" placeholder="Grootte:">
+    <el-option v-for="item in grootte" :key="item.value" :label="item.label" :value="item.value" ></el-option>
+    </el-select><br>
+    <label>Biestekst</label><br>
+           <el-input type="textarea" :rows="2" placeholder="Biestekst" v-model="editform.biestekst">
+           </el-input>
+        </div>
+      </vs-tab>
+         <vs-tab vs-label="Onderhoud">
+        <div class="oh-tab">
+          <label>Onderhoud nodig?
+           <vs-switch vs-type="warning" vs-icon="build" v-model="editform.onderhoud"/></label><br>
+            <label>Acties</label><br>
+           <el-input type="textarea" :rows="2" placeholder="e.g. corrosie/graffiti" v-model="editform.acties">
+           </el-input>
+           <br>
+          <label>Controleur</label><br>
+          <el-select v-model="editform.controleur" placeholder="Controleur:">
+    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" ></el-option>
+    </el-select>
         </div>
       </vs-tab>
     </vs-tabs>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button :plain="true" type="danger" @click="addDialogVisible = false">Cancel</el-button>
-            <el-button :plain="true" @click="newObjForm(addform)">Save</el-button>
+          <vs-button vs-color="primary" vs-icon="save" @click="newObjForm(addform)">Object opslaan</vs-button> 
         </div>
-</el-dialog>
-<el-dialog
-  title="Tips"
-  :visible.sync="deleteDialogVisible"
-  width="30%">
-  <span>{{deleteobj.locatienummer}}</span>
+    </el-dialog>
+
+    
+<el-dialog title="Object verwijderen" :visible.sync="deleteDialogVisible" width="30%" custom-class="popup del">
+  <p>Wilt u object met locatienummer {{deleteobj.locatienummer}} echt verwijderen?</p>
   <span slot="footer" class="dialog-footer">
-    <el-button @click="deleteDialogVisible = false">Cancel</el-button>
-    <el-button type="primary" @click="delObj(deleteobj)">Confirm</el-button>
+    <vs-button vs-color="primary" vs-type="border" @click="deleteDialogVisible = false">Annuleren</vs-button>
+    <vs-button vs-color="danger" vs-icon="delete_forever" @click="delObj(deleteobj)">Verwijderen</vs-button>
   </span>
 </el-dialog>
 </div>
@@ -154,6 +201,8 @@
     border-bottom: none!important;
   }
   .objtable {
+    background-color: transparent!important;
+    width: 100%!important;
     .head {
       background-color: transparent;
       th {
@@ -234,17 +283,113 @@
     }
   }
   .el-dialog.popup {
+    max-width: 40%;
     border-radius: 5px;
     text-align: left;
-    .ul-tabs {
-      li {
-        list-style: none;
+    .el-dialog__title {
+      font-size: 27px;
+      font-weight: 300;
+    }
+    .el-dialog__body {
+      .ul-tabs {
+        li {
+          list-style: none;
+        }
+      }
+      .con-tab {
+        label {
+          font-size: 14px;
+        }
+        input {
+          font-size: 14px;
+        }
+        .oh-tab {
+          .el-textarea {
+            max-width: 350px;
+            margin-bottom: 20px;
+            .el-textarea__inner {
+              padding: 5px 5px;
+              font-family: inherit;
+            }
+            &:focus {
+              border-color: #1F30FF;
+            }
+          }
+          label {
+            justify-content: left;
+          }
+        }
+        .loc-tab {
+          .con-input {
+            max-width: 350px;
+            margin: 30px 0px;
+            label {
+              padding-left: 0px;
+            }
+            &:nth-child(5) {
+              margin-bottom: 0px;
+            }
+          }
+        }
+        .inh-tab {
+          .con-input {
+            max-width: 350px;
+            margin: 20px 0px;
+            label {
+              padding-left: 0px;
+            }
+          }
+          .soort {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+            .con-vs-radio {
+              padding: 3px 18px 0 0;
+              justify-content: flex-start;
+            }
+          }
+          .el-select {
+            margin-bottom: 20px;
+          }
+          .el-textarea {
+            max-width: 350px;
+            .el-textarea__inner {
+              padding: 5px 5px;
+              font-family: inherit;
+            }
+          }
+        }
       }
     }
-    .con-tab {
-      .con-tab-ejemplo {
-        label {
-          justify-content: left;
+    .dialog-footer {
+      .vs-btn {
+        font-family: inherit;
+        .text {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  .el-dialog.popup.del {
+    text-align: center;
+    padding-top:10px;
+    p{
+        font-size: 18px;
+      }
+    .el-dialog__footer {
+      text-align: center;
+      padding: 0px 0 20px 0;
+      .vs-btn.border {
+        background-color: transparent!important;
+        border: 1px solid #d8d8d8;
+        min-width: 121px;
+        transform: translateY(-18%);
+        margin-right: 10px;
+      }
+      .vs-btn.filled {
+        margin-left: 10px;
+        &:hover {
+          box-shadow: 0 9px 28px -9px #FF4757;
         }
       }
     }
@@ -267,6 +412,24 @@
         editform: {},
         deleteobj: {},
         filterText: null,
+        options: [{
+          value: 'John Doe',
+          label: 'John Doe'
+        }, {
+          value: 'Jan van Eerd',
+          label: 'Jan van Eerd'
+        }, {
+          value: 'Piet Post',
+          label: 'Piet Post'
+        }],
+        grootte: [{
+          value: 'Klein',
+          label: 'Klein'
+        }, {
+          value: 'Groot',
+          label: 'Groot'
+        }],
+        value: ''
       }
     },
     mounted() {
