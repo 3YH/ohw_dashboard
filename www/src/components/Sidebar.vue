@@ -8,6 +8,10 @@
             <i class="material-icons">map</i>
             <span slot="title">Kaart</span>
         </el-menu-item>
+        <el-menu-item index="login">
+            <i class="material-icons">first_page</i>
+            <span slot="title">Uitloggen</span>
+        </el-menu-item>
     </el-menu>
 </template>
 
@@ -16,6 +20,7 @@
         min-height: 100vh;
         min-width: 73.5px;
         li.el-menu-item {
+            text-align: center;
             background: #fff;
             border-radius: 12px;
             margin: 5px 7.5px;
@@ -30,6 +35,15 @@
             &.mobile {
                 background: red;
             }
+            &:nth-child(3) {
+                padding-left: 37.5px!important;
+                position: absolute;
+                bottom: 0;
+                &.is-active {
+                    background: #fff;
+                    color: #909399!important;
+                }
+            }
         }
     }
 </style>
@@ -39,7 +53,7 @@
         name: 'sidebar',
         data() {
             return {
-                isCollapse: true
+                isCollapse: true,
             }
         },
         methods: {
@@ -48,6 +62,13 @@
             },
             handleClose(key, keyPath) {
                 console.log(key, keyPath);
+            }
+        },
+        mounted() {
+            if (localStorage.getItem("auth") === null) {
+                this.$router.replace({
+                    name: "login"
+                });
             }
         }
     }

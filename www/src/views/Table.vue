@@ -1,6 +1,6 @@
 <template>
   <div class="table">
-    <ObjTable/>
+    <ObjTable v-if="auth"/>
   </div>
 </template>
 
@@ -15,6 +15,11 @@
     data() {
       return {
         actives: 1,
+      }
+    },
+     computed: {
+      auth : function () {
+         return localStorage.getItem("auth") !== null
       }
     }
   }

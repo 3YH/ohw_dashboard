@@ -9,12 +9,12 @@
       </el-table-column>
       <el-table-column label="Inhoud" type="expand" width="180px">
         <template slot-scope="props">
-                                 <p>Soort: {{ props.row.soort }}</p>
-                                 <p>Grootte: {{ props.row.grootte }}</p>
-                                 <p>Biestekst: {{ props.row.biestekst }}</p>
-                                 <p>Coördinaten:</p>
-                                 <p>X-coördinaat: {{ props.row.xcord }}</p>
-                                 <p>Y-coördinaat: {{ props.row.ycord }}</p>
+                                   <p>Soort: {{ props.row.soort }}</p>
+                                   <p>Grootte: {{ props.row.grootte }}</p>
+                                   <p>Biestekst: {{ props.row.biestekst }}</p>
+                                   <p>Coördinaten:</p>
+                                   <p>X-coördinaat: {{ props.row.xcord }}</p>
+                                   <p>Y-coördinaat: {{ props.row.ycord }}</p>
 </template>
       </el-table-column>
       <el-table-column sortable prop="locatienummer" label="Nummer" aling="left">
@@ -273,6 +273,9 @@
       this.getObjecten()
     },
     methods: {
+      isAuthenticated() {
+        return localStorage.getItem("auth") !== null
+      },
       cellValueRenderer(row, column, cellValue) {
         return cellValue ? 'Ja' : 'Nee';
       },
@@ -308,7 +311,7 @@
           color: 'success',
           icon: 'done'
         })
-        setTimeout(window.location.reload.bind(window.location), 300);
+        setTimeout(window.location.reload.bind(window.location), 400);
       },
       editObject: function(index, rows) {
         this.editDialogVisible = true;
@@ -339,7 +342,7 @@
           color: 'success',
           icon: 'done'
         })
-        setTimeout(window.location.reload.bind(window.location), 300);
+        setTimeout(window.location.reload.bind(window.location), 400);
       },
       getDelObject: function(index, rows) {
         this.deleteDialogVisible = true;
@@ -360,7 +363,12 @@
           .catch(function(error) {
             console.log(error);
           });
-        location.reload();
+        this.$vs.notify({
+          text: 'Object verwijderd',
+          color: 'danger',
+          icon: 'done'
+        })
+        setTimeout(window.location.reload.bind(window.location), 400);
       },
       filterTable() {
         const rows = this.$refs.tableRef.$refs.bodyWrapper.getElementsByClassName(
