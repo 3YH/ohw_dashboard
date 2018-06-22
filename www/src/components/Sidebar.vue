@@ -1,5 +1,5 @@
 <template>
-    <el-menu default-active="/" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse" router>
+    <el-menu default-active="/" class="el-menu-vertical-demo" :collapse="isCollapse" router>
         <el-menu-item index="/">
             <i class="material-icons">format_list_bulleted</i>
             <span slot="title">Tabel</span>
@@ -8,7 +8,7 @@
             <i class="material-icons">map</i>
             <span slot="title">Kaart</span>
         </el-menu-item>
-        <el-menu-item index="login">
+        <el-menu-item index="login" @click="logout()">
             <i class="material-icons">first_page</i>
             <span slot="title">Uitloggen</span>
         </el-menu-item>
@@ -57,11 +57,9 @@
             }
         },
         methods: {
-            handleOpen(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleClose(key, keyPath) {
-                console.log(key, keyPath);
+            logout(){
+               localStorage.removeItem('auth');
+                console.log("test")
             }
         },
         mounted() {

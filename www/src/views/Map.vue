@@ -1,5 +1,13 @@
 <template>
-  <div class="map">
-    <h1>This is map</h1>
+  <div id="map">
+      <Map></Map>
   </div>
 </template>
+<script>
+  import Map from '@/components/Map.vue'
+  export default {
+    components: {
+      Map
+    }
+  }
+</script>

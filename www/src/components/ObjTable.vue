@@ -2,19 +2,19 @@
   <div class="wrapper">
     <div class="actions">
       <vs-input vs-icon="search" vs-placeholder="Zoeken.." class="search" v-model="filterText" @keyup.native="filterTable" />
-      <vs-button @click="addDialogVisible = true" vs-color="#fff" vs-type="border" vs-icon="add" class="addbtn">Object toevoegen</vs-button>
+      <vs-button @click="addDialogVisible = true" vs-color="#fff" vs-type="border" vs-icon="add" class="addbtn"><span class="hide-sm">Object toevoegen</span></vs-button>
     </div>
     <el-table :data="tableData" ref="tableRef" row-class-name="styled-row" class="objtable" header-row-class-name="head" max-height="800">
       <el-table-column label="#" type="index" width="40px">
       </el-table-column>
       <el-table-column label="Inhoud" type="expand" width="180px">
         <template slot-scope="props">
-                                                                                             <p>Soort: {{ props.row.soort }}</p>
-                                                                                             <p>Grootte: {{ props.row.grootte }}</p>
-                                                                                             <p>Biestekst: {{ props.row.biestekst }}</p>
-                                                                                             <p>Coördinaten:</p>
-                                                                                             <p>X-coördinaat: {{ props.row.xcord }}</p>
-                                                                                             <p>Y-coördinaat: {{ props.row.ycord }}</p>
+        <p>Soort: {{ props.row.soort }}</p>
+        <p>Grootte: {{ props.row.grootte }}</p>
+        <p>Biestekst: {{ props.row.biestekst }}</p>
+        <p>Coördinaten:</p>
+        <p>X-coördinaat: {{ props.row.xcord }}</p>
+        <p>Y-coördinaat: {{ props.row.ycord }}</p>
 </template>
       </el-table-column>
       <el-table-column sortable prop="locatienummer" label="Nummer" aling="left">
@@ -100,41 +100,41 @@
          <vs-tabs>
       <vs-tab vs-label="Locatie">
         <div class="loc-tab">
-        <vs-input vs-label="Plaats" vs-placeholder="Placeholder" v-model="editform.plaats"/>
-        <vs-input vs-label="Straatnaam" vs-placeholder="Straatnaam" v-model="editform.straatnaam"/>
-        <vs-input vs-label="Gemeente" vs-placeholder="Gemeente" v-model="editform.gemeente"/>
-        <vs-input vs-label="X-coördinaat" vs-placeholder="" vs-type="number" v-model="editform.xcord"/>
-        <vs-input vs-label="Y-coördinaat" vs-placeholder="" vs-type="number" v-model="editform.ycord"/>
+        <vs-input vs-label="Plaats" vs-placeholder="Placeholder" v-model="addform.plaats"/>
+        <vs-input vs-label="Straatnaam" vs-placeholder="Straatnaam" v-model="addform.straatnaam"/>
+        <vs-input vs-label="Gemeente" vs-placeholder="Gemeente" v-model="addform.gemeente"/>
+        <vs-input vs-label="X-coördinaat"  v-model="addform.xcord"/>
+        <vs-input vs-label="Y-coördinaat" v-model="addform.ycord"/>
         </div>
       </vs-tab>
       <vs-tab vs-label="Inhoud">
         <div class="inh-tab">
-           <vs-input vs-label="Locatienummer" vs-placeholder="e.g. NW01" v-model="editform.locatienummer"/>
+           <vs-input vs-label="Locatienummer" vs-placeholder="e.g. NW01" v-model="addform.locatienummer"/>
            <label>Soort:</label>
            <div class="soort">
-       <vs-radio v-model="editform.soort" vs-value="Bord">Bord</vs-radio>
-       <vs-radio v-model="editform.soort" vs-value="Brug">Brug</vs-radio>
-       <vs-radio v-model="editform.soort" vs-value="Stap">Stap</vs-radio>
+       <vs-radio v-model="addform.soort" vs-value="Bord">Bord</vs-radio>
+       <vs-radio v-model="addform.soort" vs-value="Brug">Brug</vs-radio>
+       <vs-radio v-model="addform.soort" vs-value="Stap">Stap</vs-radio>
        </div>
          <label>Grootte</label><br>
-        <el-select v-model="editform.grootte" placeholder="Grootte:">
+        <el-select v-model="addform.grootte" placeholder="Grootte:">
     <el-option v-for="item in grootte" :key="item.value" :label="item.label" :value="item.value" ></el-option>
     </el-select><br>
     <label>Biestekst</label><br>
-           <el-input type="textarea" :rows="2" placeholder="Biestekst" v-model="editform.biestekst">
+           <el-input type="textarea" :rows="2" placeholder="Biestekst" v-model="addform.biestekst">
            </el-input>
         </div>
       </vs-tab>
          <vs-tab vs-label="Onderhoud">
         <div class="oh-tab">
           <label>Onderhoud nodig?
-           <vs-switch vs-type="warning" vs-icon="build" v-model="editform.onderhoud"/></label><br>
+           <vs-switch vs-type="warning" vs-icon="build" v-model="addform.onderhoud" /></label><br>
             <label>Acties</label><br>
-           <el-input type="textarea" :rows="2" placeholder="e.g. corrosie/graffiti" v-model="editform.acties">
+           <el-input type="textarea" :rows="2" placeholder="e.g. corrosie/graffiti" v-model="addform.acties">
            </el-input>
            <br>
           <label>Controleur</label><br>
-          <el-select v-model="editform.controleur" placeholder="Controleur:">
+          <el-select v-model="addform.controleur" placeholder="Controleur:">
     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" ></el-option>
     </el-select>
         </div>
@@ -147,8 +147,8 @@
     </el-dialog>
 
     
-<el-dialog title="Object verwijderen" :visible.sync="deleteDialogVisible" width="30%" custom-class="popup del">
-  <p>Wilt u object met locatienummer {{deleteobj.locatienummer}} echt verwijderen?</p>
+<el-dialog title="Object verwijderen" :visible.sync="deleteDialogVisible" custom-class="popup del">
+  <p>Wilt u het object met locatienummer {{deleteobj.locatienummer}} echt verwijderen?</p>
   <span slot="footer" class="dialog-footer">
     <vs-button vs-color="primary" vs-type="border" @click="deleteDialogVisible = false">Annuleren</vs-button>
     <vs-button vs-color="danger" vs-icon="delete_forever" @click="delObj(deleteobj)">Verwijderen</vs-button>
@@ -157,239 +157,271 @@
 </div>
 </template>
 <style lang="scss">
-  @import '../../node_modules/sass-mq/_mq.scss';
-  .actions {
-    display: flex;
-    align-items: stretch;
-    margin-bottom: 40px;
-    .search {
-      flex: 1 0 0;
-      margin: 0 20px 0 0!important;
-      font-size: 16px;
-      input {
-        border: none!important;
-        height: 44px;
-        font-size: 16px;
+  @import "../../node_modules/sass-mq/_mq.scss";
+  .wrapper {
+    padding: 40px;
+    .actions {
+      display: flex;
+      align-items: stretch;
+      margin-bottom: 40px;
+      @include mq($until: tablet) {
+        margin-bottom: 10px;
       }
-      .iconx {
-        border: none!important;
-        i {
-          font-size: 20px;
-          padding-left: 10px;
+      .search {
+        flex: 1 0 0;
+        margin: 0 20px 0 0 !important;
+        font-size: 16px;
+        @include mq($until: tablet) {
+          margin: 0 10px 0 0 !important;
+        }
+        input {
+          border: none !important;
+          height: 44px;
+          font-size: 16px;
+        }
+        .iconx {
+          border: none !important;
+          i {
+            font-size: 20px;
+            padding-left: 10px;
+          }
+        }
+        .placeholder {
+          padding-bottom: 2px;
+          font-size: 16px;
+          padding-left: 8px;
         }
       }
-      .placeholder {
-        padding-bottom: 2px;
+      .addbtn {
+        right: 0;
         font-size: 16px;
-        padding-left: 8px;
-      }
-    }
-    .addbtn {
-      right: 0;
-      font-size: 16px;
-      span.text {
-        color: #858585;
-        .icon-btn {
-          opacity: 1;
-          color: #409EFF;
+        span.text {
+          color: #858585;
+          .icon-btn {
+            opacity: 1;
+            color: #409eff;
+          }
+          .hide-sm {
+            @include mq($until: tablet) {
+              display: none;
+            }
+          }
         }
       }
     }
-  }
-  .el-table td,
-  .el-table th.is-leaf {
-    border-bottom: none!important;
-  }
-  .objtable {
-    background-color: transparent!important;
-    width: 100%!important;
-    .head {
-      background-color: transparent;
-      th {
+    .el-table td,
+    .el-table th.is-leaf {
+      border-bottom: none !important;
+    }
+    .objtable {
+      background-color: transparent !important;
+      width: 100% !important;
+      @include mq($until: tablet) {
+        max-height: 85vh !important;
+      }
+      .head {
         background-color: transparent;
-        padding: 0;
-        margin: 0;
+        th {
+          background-color: transparent;
+          padding: 0;
+          margin: 0;
+        }
       }
-    }
-    .el-table__expanded-cell {
-      background-color: transparent;
-    }
-    .el-table__body {
-      border-spacing: 0 1rem;
-      border-collapse: separate;
-      .styled-row {
-        border: 0px solid #fff;
-        td {
-          padding: 0px;
-        }
-        td:first-child {
-          border: 0px;
-          border-top-left-radius: 5px;
-          border-bottom-left-radius: 5px;
-        }
-        td:last-child {
-          border: 0px;
-          border-top-right-radius: 5px;
-          border-bottom-right-radius: 5px;
-        }
-        .cell {
-          text-align: left;
-          button.vs-btn.vs-button-primary-filled.filled.vs-button-icon {
-            background-color: #fff;
-            &:hover {
-              box-shadow: 0 9px 28px -9px #EB5757;
-              span.text {
-                color: #EB5757;
-                opacity: 1;
-              }
-              &:first-child {
-                box-shadow: 0 9px 28px -9px #409EFF;
+      .el-table__expanded-cell {
+        background-color: transparent;
+      }
+      .el-table__body {
+        border-spacing: 0 1rem;
+        border-collapse: separate;
+        .styled-row {
+          border: 0px solid #fff;
+          td {
+            padding: 0px;
+          }
+          td:first-child {
+            border: 0px;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+          }
+          td:last-child {
+            border: 0px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+          }
+          .cell {
+            text-align: left;
+            button.vs-btn.vs-button-primary-filled.filled.vs-button-icon {
+              background-color: #fff;
+              &:hover {
+                box-shadow: 0 9px 28px -9px #eb5757;
                 span.text {
+                  color: #eb5757;
                   opacity: 1;
-                  color: #409EFF;
+                }
+                &:first-child {
+                  box-shadow: 0 9px 28px -9px #409eff;
+                  span.text {
+                    opacity: 1;
+                    color: #409eff;
+                  }
                 }
               }
-            }
-            span.text {
-              color: #EB5757;
-            }
-            &:first-child {
-              margin-top: 11px;
-              margin-right: 7px;
-              margin-bottom: 11px;
               span.text {
-                color: #000;
-                opacity: 0.58;
+                color: #eb5757;
+                @include mq($until: tablet) {
+                  padding: 0 !important;
+                }
+              }
+              &:first-child {
+                margin-top: 11px;
+                margin-right: 7px;
+                margin-bottom: 11px;
+                span.text {
+                  color: #000;
+                  opacity: 0.58;
+                }
+              }
+              @include mq($until: tablet) {
+                margin: 0 3px 0 0!important;
               }
             }
           }
-        }
-        &:hover {
-          td {
-            background-color: #edf3fc;
+          &:hover {
+            td {
+              background-color: #edf3fc;
+            }
           }
         }
-      }
-      .current-row {
-        td {
-          background-color: #d9e8ff;
-        }
-        &:hover {
+        .current-row {
           td {
             background-color: #d9e8ff;
           }
-        }
-      }
-    }
-  }
-  .el-dialog.popup {
-    max-width: 40%;
-    border-radius: 5px;
-    text-align: left;
-    .el-dialog__title {
-      font-size: 27px;
-      font-weight: 300;
-    }
-    .el-dialog__body {
-      .ul-tabs {
-        li {
-          list-style: none;
-        }
-      }
-      .con-tab {
-        label {
-          font-size: 14px;
-        }
-        input {
-          font-size: 14px;
-        }
-        .oh-tab {
-          .el-textarea {
-            max-width: 350px;
-            margin-bottom: 20px;
-            .el-textarea__inner {
-              padding: 5px 5px;
-              font-family: inherit;
-            }
-            &:focus {
-              border-color: #1F30FF;
+          &:hover {
+            td {
+              background-color: #d9e8ff;
             }
           }
+        }
+      }
+    }
+    .el-dialog.popup {
+      max-width: 40%;
+      border-radius: 5px;
+      text-align: left;
+      @include mq($until: tablet) {
+        width: 95%;
+        max-width: 98%;
+      }
+      .el-dialog__title {
+        font-size: 27px;
+        font-weight: 300;
+      }
+      .el-dialog__body {
+        .ul-tabs {
+          li {
+            list-style: none;
+          }
+        }
+        .con-tab {
           label {
-            justify-content: left;
+            font-size: 14px;
           }
-        }
-        .loc-tab {
-          .con-input {
-            max-width: 350px;
-            margin: 30px 0px;
+          input {
+            font-size: 14px;
+          }
+          .oh-tab {
+            .el-textarea {
+              max-width: 350px;
+              margin-bottom: 20px;
+              .el-textarea__inner {
+                padding: 5px 5px;
+                font-family: inherit;
+              }
+              &:focus {
+                border-color: #1f30ff;
+              }
+            }
             label {
-              padding-left: 0px;
-            }
-            &:nth-child(5) {
-              margin-bottom: 0px;
+              justify-content: left;
             }
           }
-        }
-        .inh-tab {
-          .con-input {
-            max-width: 350px;
-            margin: 20px 0px;
-            label {
-              padding-left: 0px;
+          .loc-tab {
+            .con-input {
+              max-width: 350px;
+              margin: 30px 0px;
+              label {
+                padding-left: 0px;
+              }
+              &:nth-child(5) {
+                margin-bottom: 0px;
+              }
             }
           }
-          .soort {
-            display: flex;
-            justify-content: flex-start;
-            margin-bottom: 20px;
-            .con-vs-radio {
-              padding: 3px 18px 0 0;
+          .inh-tab {
+            .con-input {
+              max-width: 350px;
+              margin: 20px 0px;
+              label {
+                padding-left: 0px;
+              }
+            }
+            .soort {
+              display: flex;
               justify-content: flex-start;
+              margin-bottom: 20px;
+              .con-vs-radio {
+                padding: 3px 18px 0 0;
+                justify-content: flex-start;
+              }
             }
-          }
-          .el-select {
-            margin-bottom: 20px;
-          }
-          .el-textarea {
-            max-width: 350px;
-            .el-textarea__inner {
-              padding: 5px 5px;
-              font-family: inherit;
+            .el-select {
+              margin-bottom: 20px;
+            }
+            .el-textarea {
+              max-width: 350px;
+              .el-textarea__inner {
+                padding: 5px 5px;
+                font-family: inherit;
+              }
             }
           }
         }
       }
-    }
-    .dialog-footer {
-      .vs-btn {
-        font-family: inherit;
-        .text {
-          font-size: 14px;
+      .dialog-footer {
+        .vs-btn {
+          font-family: inherit;
+          .text {
+            font-size: 14px;
+          }
         }
       }
     }
-  }
-  .el-dialog.popup.del {
-    text-align: center;
-    padding-top:10px;
-    p{
+    .el-dialog.popup.del {
+      width: 30%;
+      text-align: center;
+      padding-top: 10px;
+      @include mq($until: tablet) {
+        width: 95%;
+        max-width: 98%;
+      }
+      p {
         font-size: 18px;
       }
-    .el-dialog__footer {
-      text-align: center;
-      padding: 0px 0 20px 0;
-      .vs-btn.border {
-        background-color: transparent!important;
-        border: 1px solid #d8d8d8;
-        min-width: 121px;
-        transform: translateY(-18%);
-        margin-right: 10px;
-      }
-      .vs-btn.filled {
-        margin-left: 10px;
-        &:hover {
-          box-shadow: 0 9px 28px -9px #FF4757;
+      .el-dialog__footer {
+        text-align: center;
+        padding: 0px 0 20px 0;
+        .vs-btn.border {
+          background-color: transparent !important;
+          border: 1px solid #d8d8d8;
+          min-width: 121px;
+          transform: translateY(-18%);
+          margin-right: 10px;
+        }
+        .vs-btn.filled {
+          margin-left: 10px;
+          &:hover {
+            box-shadow: 0 9px 28px -9px #ff4757;
+          }
         }
       }
     }
@@ -397,10 +429,10 @@
 </style>
 <script>
   export default {
-    name: 'ObjTable',
+    name: "ObjTable",
     data() {
       return {
-        apiUrl: 'http://localhost:8090/api/objecten/',
+        apiUrl: "http://localhost:8090/api/objecten/",
         active: false,
         actives: 2,
         reducex: false,
@@ -408,149 +440,167 @@
         addDialogVisible: false,
         editDialogVisible: false,
         deleteDialogVisible: false,
-        addform: {},
+        addform: {
+          onderhoud: false
+        },
         editform: {},
         deleteobj: {},
         filterText: null,
         options: [{
-          value: 'John Doe',
-          label: 'John Doe'
-        }, {
-          value: 'Jan van Eerd',
-          label: 'Jan van Eerd'
-        }, {
-          value: 'Piet Post',
-          label: 'Piet Post'
-        }],
+            value: "John Doe",
+            label: "John Doe"
+          },
+          {
+            value: "Jan van Eerd",
+            label: "Jan van Eerd"
+          },
+          {
+            value: "Piet Post",
+            label: "Piet Post"
+          }
+        ],
         grootte: [{
-          value: 'Klein',
-          label: 'Klein'
-        }, {
-          value: 'Groot',
-          label: 'Groot'
-        }],
-        value: ''
-      }
+            value: "Klein",
+            label: "Klein"
+          },
+          {
+            value: "Groot",
+            label: "Groot"
+          }
+        ],
+        value: ""
+      };
     },
     mounted() {
-      this.getObjecten()
+      this.getObjecten();
     },
     methods: {
       isAuthenticated() {
-        return localStorage.getItem("auth") !== null
+        return localStorage.getItem("auth") !== null;
       },
       cellValueRenderer(row, column, cellValue) {
-        return cellValue ? 'Ja' : 'Nee';
+        return cellValue ? "Ja" : "Nee";
       },
       dateFormatter(row, column) {
         let data = this.$moment(row.updatedAt, this.$moment.ISO_8601);
-        return data.format('DD-MM-YYYY, h:mm')
+        return data.format("DD-MM-YYYY, h:mm");
       },
       getObjecten: function() {
-        this.$axios.get(this.apiUrl, {}).then((response) => {
-            this.tableData = response.data
+        this.$axios
+          .get(this.apiUrl, {})
+          .then(response => {
+            this.tableData = response.data;
             console.log(response.data);
           })
           .catch(e => {
-            this.errors.push(e)
-          })
+            this.errors.push(e);
+          });
       },
       newObjForm: function(addObjForm) {
         let objId = addObjForm.id;
         let locatienummer = addObjForm.locatienummer;
         let plaats = addObjForm.plaats;
         let onderhoud = addObjForm.onderhoud;
-        this.$axios.post('http://localhost:8090/api/objecten/', {
+        this.$axios
+          .post(this.apiUrl, {
             locatienummer: locatienummer,
             plaats: plaats,
-            onderhoud: onderhoud,
+            onderhoud: onderhoud
           })
           .then(response => {})
           .catch(function(error) {
             console.log(error);
           });
         this.$vs.notify({
-          text: 'Object opgeslagen',
-          color: 'success',
-          icon: 'done'
-        })
+          text: "Object opgeslagen",
+          color: "success",
+          icon: "done"
+        });
         setTimeout(window.location.reload.bind(window.location), 400);
       },
       editObject: function(index, rows) {
         this.editDialogVisible = true;
         const objId = rows[index].id;
-        const idurl = 'http://localhost:8090/api/objecten/' + objId;
-        this.$axios.get(idurl).then((response) => {
-          this.editform = response.data;
-        }).catch(function(response) {
-          console.log(response)
-        });
+        const idurl = this.apiUrl + objId;
+        this.$axios
+          .get(idurl)
+          .then(response => {
+            this.editform = response.data;
+          })
+          .catch(function(response) {
+            console.log(response);
+          });
       },
       updateForm: function(editObjForm) {
         let objId = editObjForm.id;
         let locatienummer = editObjForm.locatienummer;
         let plaats = editObjForm.plaats;
         let onderhoud = editObjForm.onderhoud;
-        this.$axios.put('http://localhost:8090/api/objecten/' + objId, {
+        this.$axios
+          .put(this.apiUrl + objId, {
             locatienummer: locatienummer,
             plaats: plaats,
-            onderhoud: onderhoud,
+            onderhoud: onderhoud
           })
           .then(response => {})
           .catch(function(error) {
             console.log(error);
           });
         this.$vs.notify({
-          text: 'Object opgeslagen',
-          color: 'success',
-          icon: 'done'
-        })
+          text: "Object opgeslagen",
+          color: "success",
+          icon: "done"
+        });
         setTimeout(window.location.reload.bind(window.location), 400);
       },
       getDelObject: function(index, rows) {
         this.deleteDialogVisible = true;
         const objId = rows[index].id;
-        const idurl = 'http://localhost:8090/api/objecten/' + objId;
-        this.$axios.get(idurl).then((response) => {
-          this.deleteobj = response.data;
-        }).catch(function(response) {
-          console.log(response)
-        });
+        const idurl = this.apiUrl + objId;
+        this.$axios
+          .get(idurl)
+          .then(response => {
+            this.deleteobj = response.data;
+          })
+          .catch(function(response) {
+            console.log(response);
+          });
       },
       delObj: function(deleteObj) {
         let objId = deleteObj.id;
-        this.$axios.delete('http://localhost:8090/api/objecten/' + objId, {
-            objId: objId,
+        this.$axios
+          .delete(this.apiUrl + objId, {
+            objId: objId
           })
           .then(response => {})
           .catch(function(error) {
             console.log(error);
           });
         this.$vs.notify({
-          text: 'Object verwijderd',
-          color: 'danger',
-          icon: 'done'
-        })
+          text: "Object verwijderd",
+          color: "danger",
+          icon: "done"
+        });
         setTimeout(window.location.reload.bind(window.location), 400);
       },
       filterTable() {
         const rows = this.$refs.tableRef.$refs.bodyWrapper.getElementsByClassName(
-          'el-table__row'
-        )
+          "el-table__row"
+        );
         for (let row of rows) {
-          let cells = row.getElementsByTagName('td')
+          let cells = row.getElementsByTagName("td");
           for (let cell of cells) {
-            let innerText = cell.innerText.toLowerCase()
-            let filterText = this.filterText.toLowerCase()
+            let innerText = cell.innerText.toLowerCase();
+            let filterText = this.filterText.toLowerCase();
             if (innerText.indexOf(filterText) > -1) {
-              row.style.display = ''
-              break
+              row.style.display = "";
+              break;
             } else {
-              row.style.display = 'none'
+              row.style.display = "none";
             }
           }
         }
       }
     }
-  }
+  };
 </script>
