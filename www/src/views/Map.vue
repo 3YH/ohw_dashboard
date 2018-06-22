@@ -1,6 +1,6 @@
 <template>
   <div id="map">
-      <Map></Map>
+      <Map v-if="auth"></Map>
   </div>
 </template>
 <script>
@@ -8,6 +8,11 @@
   export default {
     components: {
       Map
+    },
+    computed: {
+      auth : function () {
+         return localStorage.getItem("auth") !== null
+      }
     }
   }
 </script>
