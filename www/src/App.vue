@@ -21,7 +21,7 @@
       display:none;
     }
     .el-main {
-          min-height: 100vh;
+      min-height: 100vh;
       padding: 0px;
       @include mq($until: tablet) {
         padding:10px;

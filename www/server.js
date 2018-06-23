@@ -5,7 +5,5 @@ const serveStatic = require('serve-static');
 let app = express();
 app.use(serveStatic(__dirname + "/dist"));
 
-const port = process.env.PORT || 8081;
-app.listen(port, () => {
-  console.log('Listening on port ' + port)
-});
+
+app.listen(process.env.PORT || 8081)

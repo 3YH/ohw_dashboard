@@ -162,10 +162,14 @@
   @import "../../node_modules/sass-mq/_mq.scss";
   .wrapper {
     padding: 40px;
+    @include mq($until: tablet) {
+      padding: 5px;
+    }
     .actions {
       display: flex;
       align-items: stretch;
       margin-bottom: 40px;
+      
       @include mq($until: tablet) {
         margin-bottom: 10px;
       }
