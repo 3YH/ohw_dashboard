@@ -62,9 +62,10 @@
       </vs-tab>
       <vs-tab vs-label="Locatie">
         <div class="loc-tab">
-        <vs-input vs-label="Plaats" vs-placeholder="Placeholder" v-model="editform.plaats"/>
+        <vs-input vs-label="Plaats" vs-placeholder="Plaats" v-model="editform.plaats"/>
         <vs-input vs-label="Straatnaam" vs-placeholder="Straatnaam" v-model="editform.straatnaam"/>
         <vs-input vs-label="Gemeente" vs-placeholder="Gemeente" v-model="editform.gemeente"/>
+        <vs-input vs-label="Route" vs-placeholder="Route" v-model="editform.route"/>
         <vs-input vs-label="X-coördinaat" vs-placeholder="" vs-type="number" v-model="editform.xcord"/>
         <vs-input vs-label="Y-coördinaat" vs-placeholder="" vs-type="number" v-model="editform.ycord"/>
         </div>
@@ -100,16 +101,17 @@
          <vs-tabs>
       <vs-tab vs-label="Locatie">
         <div class="loc-tab">
-        <vs-input vs-label="Plaats" vs-placeholder="Placeholder" v-model="addform.plaats"/>
+        <vs-input vs-label="Plaats" vs-placeholder="Plaats" v-model="addform.plaats"/>
         <vs-input vs-label="Straatnaam" vs-placeholder="Straatnaam" v-model="addform.straatnaam"/>
         <vs-input vs-label="Gemeente" vs-placeholder="Gemeente" v-model="addform.gemeente"/>
+        <vs-input vs-label="Route" vs-placeholder="Route" v-model="addform.route"/>
         <vs-input vs-label="X-coördinaat"  v-model="addform.xcord"/>
         <vs-input vs-label="Y-coördinaat" v-model="addform.ycord"/>
         </div>
       </vs-tab>
       <vs-tab vs-label="Inhoud">
         <div class="inh-tab">
-           <vs-input vs-label="Locatienummer" vs-placeholder="e.g. NW01" v-model="addform.locatienummer"/>
+           <vs-input vs-label="Locatienummer(verplicht)" vs-placeholder="e.g. NW01" v-model="addform.locatienummer"/>
            <label>Soort:</label>
            <div class="soort">
        <vs-radio v-model="addform.soort" vs-value="Bord">Bord</vs-radio>
@@ -499,13 +501,33 @@
       newObjForm: function(addObjForm) {
         let objId = addObjForm.id;
         let locatienummer = addObjForm.locatienummer;
+        let soort = addObjForm.soort;
+        let grootte = addObjForm.grootte;
+        let biestekst = addObjForm.biestekst;
         let plaats = addObjForm.plaats;
+        let gemeente = addObjForm.gemeente;
+        let straatnaam = addObjForm.straatnaam;
+        let route = addObjForm.route;
+        let xcord = addObjForm.xcord;
+        let ycord = addObjForm.ycord;
+        let controleur = addObjForm.controleur;
+        let acties = addObjForm.acties;
         let onderhoud = addObjForm.onderhoud;
         this.$axios
           .post(this.apiUrl, {
             locatienummer: locatienummer,
+            soort: soort,
+            grootte: grootte,
+            biestekst: biestekst,
             plaats: plaats,
-            onderhoud: onderhoud
+            gemeente: gemeente,
+            straatnaam: straatnaam,
+            route: route,
+            xcord: xcord,
+            ycord: ycord,
+            controleur: controleur,
+            onderhoud: onderhoud,
+            acties: acties
           })
           .then(response => {})
           .catch(function(error) {
@@ -534,13 +556,33 @@
       updateForm: function(editObjForm) {
         let objId = editObjForm.id;
         let locatienummer = editObjForm.locatienummer;
+        let soort = editObjForm.soort;
+        let grootte = editObjForm.grootte;
+        let biestekst = editObjForm.biestekst;
         let plaats = editObjForm.plaats;
+        let gemeente = editObjForm.gemeente;
+        let straatnaam = editObjForm.straatnaam;
+        let route = editObjForm.route;
+        let xcord = editObjForm.xcord;
+        let ycord = editObjForm.ycord;
+        let controleur = editObjForm.controleur;
+        let acties = editObjForm.acties;
         let onderhoud = editObjForm.onderhoud;
         this.$axios
           .put(this.apiUrl + objId, {
             locatienummer: locatienummer,
+            soort: soort,
+            grootte: grootte,
+            biestekst: biestekst,
             plaats: plaats,
-            onderhoud: onderhoud
+            gemeente: gemeente,
+            straatnaam: straatnaam,
+            route: route,
+            xcord: xcord,
+            ycord: ycord,
+            controleur: controleur,
+            onderhoud: onderhoud,
+            acties: acties
           })
           .then(response => {})
           .catch(function(error) {

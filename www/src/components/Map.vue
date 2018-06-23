@@ -59,7 +59,8 @@
                                 lng: item.xcord
                             };
                             this.markers.push({
-                                position: marker
+                                position: marker,
+                                infoText: item.locatienummer + " (plaats: " + item.plaats + ")"
                             });
                         });
                     })
