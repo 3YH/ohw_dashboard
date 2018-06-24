@@ -54,12 +54,11 @@ npm install --global vue-cli
 #### Clone
 ```
 git clone https://github.com/yannickhj/ohw_dashboard.git
-cd /ohw_dashboard
-
 
 ```
 ### Backend
 ```
+cd /ohw_dashboard
 mvn install
 mvn spring-boot:run
 ```
