@@ -73,6 +73,7 @@ De applicatie is vervolgens te vinden op: ```http://localhost:8081/```
 
 
 ## Demo
+[http://g.recordit.co/5Wt7MTdWkC.gif](http://g.recordit.co/5Wt7MTdWkC.gif)
 ![Demo gif](http://g.recordit.co/5Wt7MTdWkC.gif)
 
 
