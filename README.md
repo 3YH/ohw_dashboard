@@ -54,7 +54,6 @@ npm install --global vue-cli
 #### Clone
 ```
 git clone https://github.com/yannickhj/ohw_dashboard.git
-
 ```
 ### Backend
 ```
