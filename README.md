@@ -65,7 +65,6 @@ Of in Eclipse met [Spring Boot extentie](https://spring.io/tools/sts) > Run as..
 Dit start de REST API.
 ### Frontend
 ```
-cd ../www
 npm install
 vue ui
 ```
