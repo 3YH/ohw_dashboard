@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-
+//REST aanmaken
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:8081") //Zodat frontend url ook requests mag sturen
 @RequestMapping("/api")
 public class SignController {
-
+//Inject sign repo en aanmaken REST url's voor verschillende soorten requests(CRUD)
     @Autowired
     SignRepository signRepository;
 

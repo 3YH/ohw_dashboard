@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
+//Aanmaken entiteit en dmv. Hibernate annotaties aanmaken in de database
 @Entity
 @Table(name = "signs")
 @EntityListeners(AuditingEntityListener.class)
